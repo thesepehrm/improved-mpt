@@ -7,8 +7,6 @@ import (
 	"math/big"
 	"testing"
 	"time"
-
-	"gitlab.com/thesepehrm/galaxy/crypto"
 )
 
 type tCase struct {
@@ -17,12 +15,12 @@ type tCase struct {
 }
 
 func testCase() *tCase {
-	pk, err := crypto.GenerateKey()
+	pk, err := GenerateKey()
 	if err != nil {
 		log.Panic(err)
 	}
 
-	addr := crypto.PubkeyToAddress(pk.PublicKey)
+	addr := PubkeyToAddress(pk.PublicKey)
 	val := randValue()
 
 	return &tCase{addr.Raw(), val}

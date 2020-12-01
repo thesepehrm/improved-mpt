@@ -5,7 +5,6 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 
-	"gitlab.com/thesepehrm/galaxy/common"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -23,7 +22,7 @@ func FromECDSAPub(pub *ecdsa.PublicKey) []byte {
 
 func checkSum(pubKeyHash []byte) []byte {
 	checkHash := sha3.Sum256(pubKeyHash)
-	return checkHash[:common.CheckSumLength]
+	return checkHash[:CheckSumLength]
 }
 
 /* PubKeyToAddress generates the address based on the public key
@@ -32,11 +31,11 @@ First, a SHA3-256 hash is generated from the public key, then hash it is hashed 
 Then the checksum gets appended to the first hash which is the byte array for the final address
 
 */
-func PubkeyToAddress(p ecdsa.PublicKey) common.Address {
+func PubkeyToAddress(p ecdsa.PublicKey) Address {
 	pubBytes := FromECDSAPub(&p)
 	pubKeyHash := sha3.Sum256(pubBytes)
 	check := checkSum(pubKeyHash[:])
 	hashedAddress := append(pubKeyHash[:], check...)
 
-	return common.BytesToAddress(hashedAddress)
+	return BytesToAddress(hashedAddress)
 }
